@@ -9,7 +9,6 @@ const loadOptions = async (category, elementId) => {
         const data = await response.json();
         const selectElement = document.getElementById(elementId);
 
-
         selectElement.innerHTML = '<option value="">Select an option</option>';
         data[category].forEach(option => {
             const optionElement = document.createElement('option');
@@ -24,10 +23,9 @@ const loadOptions = async (category, elementId) => {
 
 const getRecommendation = async () => {
     const genre = document.getElementById('genre').value;
-    const director = document.getElementById('director').value;
     const year = document.getElementById('year').value;
 
-    if (!genre || !director || !year) {
+    if (!genre || !year) {
         alert('Please select an option for all categories.');
         return;
     }
@@ -36,7 +34,7 @@ const getRecommendation = async () => {
         const response = await fetch(`${apiUrl}/recommend`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ genres: genre, director, year })
+            body: JSON.stringify({ genres: genre, year })
         });
 
         if (!response.ok) {
@@ -60,10 +58,8 @@ const getRecommendation = async () => {
     }
 };
 
-
 document.addEventListener('DOMContentLoaded', () => {
     loadOptions('genres', 'genre');
-    loadOptions('director', 'director');
     loadOptions('year', 'year');
 
     document.getElementById('submit').addEventListener('click', getRecommendation);
